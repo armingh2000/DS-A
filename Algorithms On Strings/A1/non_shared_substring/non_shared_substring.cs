@@ -15,7 +15,7 @@ namespace NoneSharedSubstring
             string[] patterns = new string[n];
             for(long i = 0; i < n; i++)
             {
-                string[i]=Console.ReadLine();
+                patterns[i]=Console.ReadLine();
             }
             string[] res = Solve(n, patterns);
             for(int i = 0; i < edgeNum; i++){
