@@ -8,25 +8,26 @@ namespace NoneSharedSubstring
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            long n = long.Parse(Console.Readline());
+            long n = long.Parse(Console.ReadLine());
             string[] patterns = new string[n];
             for(long i = 0; i < n; i++)
             {
                 patterns[i]=Console.ReadLine();
             }
-            string[] res = Solve(n, patterns);
-            for(int i = 0; i < edgeNum; i++){
+            //Program p = new Program();
+            string[] res = Solve(n, patterns);//p.Solve(n, patterns);
+            for(int i = 0; i < res.Length; i++){
                 Console.WriteLine(res[i]);
             }
         
         }
-        List<List<int[]>> Nodes;
-        int nodeNum;
-        int edgeNum;
+        static private List<List<int[]>> Nodes;
+        static private int nodeNum;
+        static private int edgeNum;
 
-        public string[] Solve(long n, string[] patterns)
+        public static string[] Solve(long n, string[] patterns)
         {
             Nodes = new List<List<int[]>>();
             nodeNum = 1;
@@ -40,7 +41,7 @@ namespace NoneSharedSubstring
             return res();
         }
 
-        private string[] res()
+        private static string[] res()
         {
             string[] result = new string[edgeNum];
             int ind = 0;
@@ -55,7 +56,7 @@ namespace NoneSharedSubstring
             return result;
         }
 
-        private void constructTrie(string pattern)
+        private static void constructTrie(string pattern)
         {
             bool loop = true;
             int i = 0;
