@@ -1,3 +1,2 @@
 # DS-A
-directory format : 
- Course_Name / A(#assignment number) / coursera directories /
+format : Name of Course\A#number of assignment\course folders
