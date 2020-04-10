@@ -8,18 +8,19 @@ namespace A1
         static void Main()
         {
             string firstLine = Console.ReadLine();
-            long nodeCount = long.Parse(firstLine[0]);
-            long edgeCount = long.Parse(firstLine[1]);
+            long nodeCount = long.Parse(firstLine.Split()[0]);
+            long edgeCount = long.Parse(firstLine.Split()[1]);
 
             string line;
             long[][] edges = new long[edgeCount][];
             for(long i = 0; i < edgeCount; i++){
+                edges[i] = new long[2];
                 line = Console.ReadLine();
-                edges[i][0] = long.Parse(line[0]);
-                edges[i][1] = long.Parse(line[1]);
+                edges[i][0] = long.Parse(line.Split()[0]);
+                edges[i][1] = long.Parse(line.Split()[1]);
             }
             line = Console.ReadLine();
-            Console.WriteLine(Solve(nodeCount, edges, long.Parse(line[0]), long.Parse(line[1])));
+            Console.WriteLine(Solve(nodeCount, edges, long.Parse(line.Split()[0]), long.Parse(line.Split()[1])));
         }
         static List<long>[] adjs;
         static bool[] visited;
@@ -41,7 +42,7 @@ namespace A1
             }
 
             Explore(StartNode - 1);
-            if (visited[EndNoade - 1])
+            if (visited[EndNode - 1])
                 return 1;
             return 0;
         }
