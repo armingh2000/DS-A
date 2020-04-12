@@ -27,16 +27,43 @@ namespace bwm
         /// in Text. </returns>
         public static void Solve(string text, long n, String[] patterns)
         {
+            symbols.Construct(text);
+            int top, bottom, curr, ind;
+            int len = text.Length;
+            char sym;
+            for(int i = 0; i < n; i++)
+            {
+                curr = patterns[i].Length - 1;
+                bottom = len - 1;
+                top = 0;
+                while(top <= bottom)
+                {
+                    if(curr >= 0)
+                    {
+                        sym = patterns[i][curr];
+                        curr--;
+                        ind = symbols.IndexOf(sym);
+                        top = symbols.FirstOccur[ind] + symbols.count[ind][top];
+                        bottom = symbols.FirstOccur[ind] + symbols.count[ind][bottom + 1] - 1;
+                    }
+                    else
+                    {
+                        Console.Write(bottom - top + 1 );
+                        Console.Write(" ");
+                    }
+
+                }
+            }
 
         }
 
     }
     public class symbols
     {
-        static int[] FirstOccur = new int[4] { -1, -1, -1, -1 };
-        static int[][] count = new int[4][];
+        public static int[] FirstOccur = new int[4] { -1, -1, -1, -1 };
+        public static int[][] count = new int[4][];
 
-        public void Construct(string text)
+        public static void Construct(string text)
         {
             for(int i = 0; i < 4; i++)
             {
@@ -51,7 +78,7 @@ namespace bwm
             }
         }
 
-        public int IndexOf(char c)
+        public static int IndexOf(char c)
         {
             switch(c)
             {
