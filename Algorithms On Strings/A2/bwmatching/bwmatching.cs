@@ -31,8 +31,10 @@ namespace bwm
             int top, bottom, curr, ind;
             int len = text.Length;
             char sym;
+            bool had;
             for(int i = 0; i < n; i++)
             {
+                had = false;
                 curr = patterns[i].Length - 1;
                 bottom = len - 1;
                 top = 0;
@@ -50,9 +52,17 @@ namespace bwm
                     {
                         Console.Write(bottom - top + 1 );
                         Console.Write(" ");
+                        had = true;
+                        break;
                     }
 
                 }
+                if(!had)
+                {
+                    Console.Write(0);
+                    Console.Write(" ");
+                }
+                
             }
 
         }
@@ -60,21 +70,43 @@ namespace bwm
     }
     public class symbols
     {
-        public static int[] FirstOccur = new int[4] { -1, -1, -1, -1 };
-        public static int[][] count = new int[4][];
+        public static int[] FirstOccur = new int[5] { 0, -1, -1, -1, -1 };
+        public static int[][] count = new int[5][];
 
         public static void Construct(string text)
         {
-            for(int i = 0; i < 4; i++)
+            List<char> temp = new List<char>();
+            for(int i = 0; i < text.Length; i++)
+            {
+                temp.Add(text[i]);
+            }
+            temp.Sort();
+            int seen = 0;
+            int curr = 0;
+            while((seen < 4) && (curr < text.Length))
+            {
+                if(FirstOccur[IndexOf(temp[curr])] == -1)
+                {
+                    FirstOccur[IndexOf(temp[curr])] = curr;
+                    seen++;
+                }
+                curr++;
+            }
+
+
+            for(int i = 0; i < 5; i++)
             {
                 count[i] = new int[text.Length + 1];
             }
+            int ind;
             for(int i = 0; i < text.Length; i++)
             {
-                int ind = IndexOf(text[i]);
-                if(FirstOccur[ind] == -1) 
-                    FirstOccur[ind] = i;
-                count[ind][i + 1]++;
+                ind = IndexOf(text[i]);
+                for(int j = 0; j < 5; j++)
+                {
+                    count[j][i + 1] = count[j][i];
+                }
+                count[ind][i + 1] = count[ind][i] + 1;
             }
         }
 
@@ -82,14 +114,16 @@ namespace bwm
         {
             switch(c)
             {
-                case 'a':
+                case '$':
                     return 0;
-                case 'c':
+                case 'A':
                     return 1;
-                case 'g':
+                case 'C':
                     return 2;
-                default:
+                case 'G':
                     return 3;
+                default:
+                    return 4;
             }
 
         }
