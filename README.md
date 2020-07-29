@@ -7,7 +7,11 @@ For LEARNING purpose ONLY.
 
 If you want to contribute, solve one of the questions in a programming language that has not been implemented yet.
 
+These languages must be implemented:
+C c++ c# Go Haskell Java JavaScript Kotlin Python Ruby Rust Scala
 
-format : Name of Course\A#number of assignment\course folders
+A tester is being implemented to help to verify the correctness of the
+programs(https://github.com/armingh2000/TIC-Tester-in-cpp)
+
 
 
