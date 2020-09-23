@@ -13,19 +13,19 @@ namespace _1
             //Console.WriteLine(MaxPrefSuf("baababacc", "cabcaab"));
             //Console.ReadLine();
             List<string> ls = new List<string>();
-            ls.Add("AAC");
-            ls.Add("ACG");
-            ls.Add("GAA");
-            ls.Add("GTT");
-            ls.Add("TCG");
-            //string line;
-            //for(int i=0;i<1618;i++)
-            //{
-            //    line = Console.ReadLine();
-            //    ls.Add(line);
-            //}
+            //ls.Add("AAC");
+            //ls.Add("ACG");
+            //ls.Add("GAA");
+            //ls.Add("GTT");
+            //ls.Add("TCG");
+            string line;
+            for (int i = 0; i < 1618; i++)
+            {
+                line = Console.ReadLine();
+                ls.Add(line);
+            }
 
-            Console.WriteLine(CreateCommonArray(ls));
+            Console.WriteLine(FirstGenome(ls));
             Console.ReadKey();
 
 
@@ -46,26 +46,92 @@ namespace _1
 
 
 
-        public static string CreateCommonArray(List<string> listOfStr)
+        public static string FirstGenome(List<string> listOfStr)
         {
             bool[] visited = new bool[listOfStr.Count];
             //string currentStr = listOfStr[0];
             StringBuilder s = new StringBuilder();
+            long[][] commonPrefWithSuff = CreateCommonArray(listOfStr);
+
+            //return commonPrefWithSuff;
+
+            //PrintArray(commonPrefWithSuff);
+
+            CreateInitialGenome(listOfStr, visited, s, commonPrefWithSuff);
+
+            #region
+            //visited[0] = true;
+
+            //long temp = 0;
+            //while (temp != -1)
+            //{
+            //    long max = 0;
+            //    long maxIdx = -1;
+            //    for (long j = 0; j < listOfStr.Count; j++)
+            //    {
+            //        if (commonPrefWithSuff[temp][j] > 0 && !visited[j] && commonPrefWithSuff[temp][j] >= max)
+            //        {
+            //            max = commonPrefWithSuff[temp][j];
+            //            maxIdx = j;
+            //        }
+            //    }
+
+            //    temp = maxIdx;
+
+            //    if (maxIdx != -1)
+            //    {
+            //        if (!visited[maxIdx])
+            //            s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
+            //        visited[temp] = true;
+            //    }
+            //}
+            #endregion
+            return s.ToString();
+
+            #region
+            //while (listOfStr.Count > 0)
+            //{
+            //    long max = 0;
+            //    long maxIdx = -1;
+
+            //    for (long j = 0; j < listOfStr.Count; j++)
+            //    {
+            //        if (/*idx!=j && */
+            //            max <= (temp = FindLongestCommonPrefixAndSUffixOfTwoString(listOfStr[(int)j], currentStr)))
+            //        {
+            //            max = temp;
+            //            maxIdx = j;
+            //        }
+            //    }
+
+            //    s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
+            //    currentStr = listOfStr[(int)maxIdx];
+            //    listOfStr.RemoveAt((int)maxIdx);
+            //}
+
+            //return s.ToString();
+            #endregion
+        }
+
+        public static long[][] CreateCommonArray(List<string> listOfStr)
+        {
             long[][] commonPrefWithSuff = new long[listOfStr.Count][];
 
-            for(long i=0;i<listOfStr.Count;i++)
+            for (long i = 0; i < listOfStr.Count; i++)
             {
                 commonPrefWithSuff[i] = new long[listOfStr.Count];
-                for(long j=0;j<listOfStr.Count;j++)
+                for (long j = 0; j < listOfStr.Count; j++)
                 {
-                    if(i!=j)
+                    if (i != j)
                         commonPrefWithSuff[i][j] = FindLongestCommonPrefixAndSUffixOfTwoString(listOfStr[(int)j], listOfStr[(int)i]);
                 }
             }
 
-            //return commonPrefWithSuff;
-            PrintArray(commonPrefWithSuff);
+            return commonPrefWithSuff;
+        }
 
+        public static void CreateInitialGenome2(List<string> listOfStr, bool[] visited, StringBuilder s, long[][] commonPrefWithSuff)
+        {
             long temp = 0;
             while (temp != -1)
             {
@@ -90,63 +156,46 @@ namespace _1
                         s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
                         visited[temp] = true;
                     }
-                        
+
+                }
+            }
+        }
+
+        public static void CreateInitialGenome(List<string> listOfStr, bool[] visited, StringBuilder s, long[][] commonPrefWithSuff)
+        {
+            s.Append(listOfStr[0]);
+            long temp = 0;
+            long last = -1;
+            while (temp != -1)
+            {
+                visited[temp] = true;
+                long max = 0;
+                long maxIdx = -1;
+                for (long j = 0; j < listOfStr.Count; j++)
+                {
+                    if (commonPrefWithSuff[temp][j] > 0 && !visited[j] && commonPrefWithSuff[temp][j] >= max)
+                    {
+                        max = commonPrefWithSuff[temp][j];
+                        maxIdx = j;
+                    }
+                }
+
+                temp = maxIdx;
+
+                if (maxIdx != -1)
+                {
+                    s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
+                    last = temp;
+                    visited[temp] = true;
                 }
             }
 
-            #region
-            //visited[0] = true;
-
-            //long temp = 0;
-            //while(temp!=-1)
-            //{
-            //    long max = 0;
-            //    long maxIdx = -1;
-            //    for (long j=0;j<listOfStr.Count;j++)
-            //    {
-            //        if(commonPrefWithSuff[temp][j]>0 && !visited[j] && commonPrefWithSuff[temp][j]>=max)
-            //        {
-            //            max = commonPrefWithSuff[temp][j];
-            //            maxIdx = j;
-            //        }
-            //    }
-
-            //    temp = maxIdx;
-
-            //    if(maxIdx!=-1)
-            //    {
-            //        if(!visited[maxIdx])
-            //        s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
-            //        visited[temp] = true;
-            //    }
-            //}
-            #endregion
-            return s.ToString();
+            var c = commonPrefWithSuff[last][0];
+            s.Remove((int)(s.Length - c), (int)(c));
 
 
-
-            //while (listOfStr.Count > 0)
-            //{
-            //    long max = 0;
-            //    long maxIdx = -1;
-
-            //    for (long j = 0; j < listOfStr.Count; j++)
-            //    {
-            //        if (/*idx!=j && */
-            //            max <= (temp = FindLongestCommonPrefixAndSUffixOfTwoString(listOfStr[(int)j], currentStr)))
-            //        {
-            //            max = temp;
-            //            maxIdx = j;
-            //        }
-            //    }
-
-            //    s.Append(listOfStr[(int)maxIdx].ToCharArray(), (int)max, (int)(listOfStr[(int)maxIdx].Length - max));
-            //    currentStr = listOfStr[(int)maxIdx];
-            //    listOfStr.RemoveAt((int)maxIdx);
-            //}
-
-            //return s.ToString();
         }
+
 
 
         //public static string Function(List<string> listOfStr)
